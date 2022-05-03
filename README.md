@@ -1,4 +1,7 @@
 # Maximal Extractable Value (MEV)
+
+![](https://i.imgur.com/frgXFRX.png)
+
 MEV is a relatively new concept in the world of blockchains, and one that carries with it a lot of controversy. It refers to the maximum value that can be extracted from the block production apart from the standard block rewards.
 
 Previously, it used to be called Miner Extractable Value, since miners were best positioned to extract value from block production, but as we move towards Proof of Stake and miners get replaced by validators, a more generic rename has been done to call it Maximal Extractable Value.
