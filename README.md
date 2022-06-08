@@ -83,7 +83,7 @@ Suppose your ETH private key gets stolen, and you had a bunch of mainnet funds a
 
 It is possible then, and happens occasionally, that a bot would steal all your ETH and tokens, but there are other assets they did not care about that are worth a decent amount and you want to retrieve them. Unfortunately, you need ETH to pay gas for transactions, and the second you send any ETH to a compromised account, it is likely to be stolen by the bot before you can do anything.
 
-Enter Flashbots. A lot of people have used Flashbots for good in this case, where they can design a bundle of transactions which would first send some ETH to the compromised account from a different account, and then withdraw all the assets the bot did not steal atomically, and ask the miner to order them in that sequential order within the same block. By skipping the mempool and being sure that both transactions will get included within the same block, bots can no longer frontrun your transaction and steal your ETH before you can withdraw your assets.
+Enter Flashbots. A lot of people have used Flashbots for good in this case, where they can design a bundle of transactions which would first send some ETH to the compromised account from a different account, and then withdraw all the assets the bot did not steal automatically, and ask the miner to order them in that sequential order within the same block. By skipping the mempool and being sure that both transactions will get included within the same block, bots can no longer frontrun your transaction and steal your ETH before you can withdraw your assets.
 
 In fact, this exact approach has led to countless people recovering (hundreds of) thousands from stolen accounts. 
 
