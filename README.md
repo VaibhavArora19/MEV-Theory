@@ -6,6 +6,8 @@ MEV is a relatively new concept in the world of blockchains, and one that carrie
 
 Previously, it used to be called Miner Extractable Value, since miners were best positioned to extract value from block production, but as we move towards Proof of Stake and miners get replaced by validators, a more generic rename has been done to call it Maximal Extractable Value.
 
+<Quiz questionId="41da4c35-5b68-4e4d-be8b-4fc97042971b" />
+
 ## What is MEV?
 In a nutshell, it's the concept of extracting value (profit) by making certain types of transactions on chain that are not block rewards themselves. Originally, it started happening because miners had control over which transactions they'd like to include in a block, and in which order. Since when creating a block, miners can include, exclude and change the transactions of the block as they wish, this means they can favor some transactions as compared to others and gain some additional profits by doing so. Note that we are talking about miners right now but things will change after [the merge](https://ethereum.org/en/upgrades/merge/).
 
@@ -16,12 +18,18 @@ In theory, MEV could only be extracted by miners, and this was true in the early
 
 Miners still continue to get a portion of the MEV profit made by searchers, as searchers generally tend to pay very high gas fees to try and ensure their transaction is included in the block. We'll look at some example cases shortly.
 
+<Quiz questionId="66588d2f-ecfb-40c2-af1b-a0ee014c8ffd" />
+
 ## Searchers
-`Searchers` are participants which are looking for opportunities to make profitable transactions. Miners get benefited from these `Searchers` because "Searchers" usually have to pay very high gas fees to actually be able to make a profitable transaction as the competition is very high. One example that we studied was DEX Arbitrage in our flash loan example. While arbitrage could be done manually, the chances of you succeeding at doing that are miniscule. Searchers run bots to detect arbitrage opportunities on chain, and automatically submit transactions to make profit from such opportunities. Since arbitrage is one of the most common examples of MEV, searchers typically end up paying 90% of their profit to miners in gas fees to be included in the block.
+`Searchers` are participants which are looking for opportunities to make profitable transactions. These are generally regular users, who can code of course. Miners get benefited from these `Searchers` because "Searchers" usually have to pay very high gas fees to actually be able to make a profitable transaction as the competition is very high. One example that we studied was DEX Arbitrage in our flash loan example. While arbitrage could be done manually, the chances of you succeeding at doing that are miniscule. Searchers run bots to detect arbitrage opportunities on chain, and automatically submit transactions to make profit from such opportunities. Since arbitrage is one of the most common examples of MEV, searchers typically end up paying 90% of their profit to miners in gas fees to be included in the block.
 
 This had led to the rise of research in the field of **Gas Golfing** - a fancy word for making minor optimizations to smart contracts and execution to try to minimize gas cost as much as possible, which allows Searchers to increase their gas price while lowering the gas fees thereby ending up with the same amount of total ETH paid for gas. 
 
+<Quiz questionId="99e3fc3d-d650-4663-9afb-8780f80e4e6d" />
+
 `Searchers` use the concept of Gas Golfing to be able to program transactions in such a way that they use the least amount of gas. This is because of the formulae `gas fees = gas price * gas used`. So if you decrease your `gas used`, you can increase your `gas price` to arrive at the same `gas fees`. This helps in competitive MEV opportunities as by being able to pay higher gas fees than your competitors means that your chances of getting your transaction included are higher.
+
+<Quiz questionId="0fa2eec9-9bf3-45a5-84c8-0a911ed4ca23" />
 
 We talked about how to decrease gas usage in detail in one of our previous levels.
 
@@ -33,11 +41,15 @@ The latter is what are known as frontrunning bots. Frontrunners are bots that ar
 Funny things can happen when multiple frontrunning bots get stuck in a loop of trying to frontrun each other, eventually ending up with virtually no profit at all. 
 
 ## Flashbots
-We cannot talk about MEV without talking about Flashbots. Flashbots is an independent research project, which extended the `go-ethereum` client with a service that allows `Searchers` to submit transactions directly to Miners, without having to go through the public mempool. This means transactions submitted by a `Searcher` are not visible to others on the mempool unless they actually get included in a block by a miner, at which point it's too late to do anything about it.
+We cannot talk about MEV without talking about Flashbots. Flashbots is an independent research project, which extended the `go-ethereum` client with a service that allows `Searchers` to submit transactions directly to `Miners`, without having to go through the public mempool. This means transactions submitted by a `Searcher` are not visible to others on the mempool unless they actually get included in a block by a miner, at which point it's too late to do anything about it.
 
 As of today, the majority of MEV transactions take place through the Flashbots service, which means generalized frontrunners as described above are no longer as profitable as they used to be. Those frontrunners are based on the idea of copying transactions from the mempool and submitting them with a higher gas fees. Through Flashbots, however, transactions skip the mempool entirely, and therefore generalized frontrunners cannot pick up most of the MEV happening today.
 
+<Quiz questionId="7fa5c6f8-57c6-4dfb-bb3d-b965ee73302b" />
+
 Flashbots also democratized MEV much more, by providing direct access to miners for `Searchers` - thereby somewhat opening up the opportunity for regular users like you and me to extract MEV without being a miner ourselves. 
+
+<Quiz questionId="b76c9ca1-78ac-4f00-910c-748bcb6a198f" />
 
 We will talk about Flashbots in more detail soon.
 
@@ -87,6 +99,8 @@ Enter Flashbots. A lot of people have used Flashbots for good in this case, wher
 
 In fact, this exact approach has led to countless people recovering (hundreds of) thousands from stolen accounts. 
 
+<Quiz questionId="a155780b-8703-473e-a76d-78ddf4f10bbf" />
+
 # The good and the bad
 
 # Pros
@@ -110,6 +124,8 @@ As a result, it spawned DAO's and projects that collaborated their resources to 
 
 Instead, Flashbots created something which is really cool, they decided to allow users to privately communicate the transaction order they want and bid the amount they are willing to give. If their bid fails, the user doesn't end up paying anything, as the miner doesn't get anything if the transaction isn't profitable. This mechanism eliminates front running.
 
+<Quiz questionId="f0a112f7-5ff2-429b-8a20-a77907afc7e4" />
+
 # Architecture of Flash bots
 
 Let's understand further down how everything works underneath in flashbots
@@ -127,6 +143,8 @@ The `Searcher` expresses their bids for inclusion through ethereum transactions 
 Now the issue comes because "Searcher" doesn't have to pay anything for the failed bids, they might do a DOS attack and spam the miners with invalid transaction bundles. To prevent this the user's transactions are first sent to the relayer who validates the bundle and also does bundle merging. The relayer also has a reputation system, where legitimate searchers build up their reputation over time whereas DOS attackers and such lose reputation thereby making it harder for them to mess with the system.
 
 The official documentation of flashbots suggests not to integrate with relayers other than the ones from Flashbots until the system is fully decentralized because relayers have access to the full transaction data and may use it for their own benefits.
+
+<Quiz questionId="e7d999ff-faf9-4420-aba4-0b70a73c3106" />
 
 The miners which want to support the Flashbots relay run the MEV-modified Ethereum client code, for eg. `mev-geth` which is an extension of `go-ethereum`. As of today, over 80% of Ethereum miners are using the MEV-modified version of Ethereum nodes.
 
@@ -155,6 +173,8 @@ Here is a list of all the params it takes:
 }
 ```
 
+<Quiz questionId="ca46196b-7f56-4cff-b433-a13f17c39b87" />
+
 ![](https://i.imgur.com/LSrgpr8.png)
 (Referenced from the [docs of flashbots](https://docs.flashbots.net/flashbots-auction/overview))
 
@@ -182,3 +202,5 @@ Just wow 🤯
 
 - [Ethereum.org docs](https://ethereum.org/en/developers/docs/mev/)
 - [Flashbots docs](https://docs.flashbots.net/flashbots-auction/overview)
+
+<SubmitQuiz />
